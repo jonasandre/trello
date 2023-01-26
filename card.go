@@ -95,7 +95,6 @@ type Card struct {
 // where a Card which wasn't created from an API call to be used as the basis
 // for other API calls. All nested structs (Actions, Attachments, Checklists,
 // etc) also have their client properties updated.
-//
 func (c *Card) SetClient(newClient *Client) {
 	c.client = newClient
 
@@ -154,9 +153,9 @@ func (c *Card) CustomFields(boardCustomFields []*CustomField) map[string]interfa
 			//Options for Dropbox field
 			for _, cf := range bcf.Options {
 				// create 2nd level map when not available yet
-				map2, ok := bcfOptionsMap[cf.IDCustomField]
+				_, ok := bcfOptionsMap[cf.IDCustomField]
 				if !ok {
-					map2 = map[string]interface{}{}
+					map2 := map[string]interface{}{}
 					bcfOptionsMap[bcf.ID] = map2
 				}
 
@@ -318,9 +317,9 @@ func (l *List) AddCard(card *Card, extraArgs ...Arguments) error {
 // CopyToList takes a list id and Arguments and returns the matching Card.
 // The following Arguments are supported.
 //
-//	Arguments["keepFromSource"] = "all"
-//  Arguments["keepFromSource"] = "none"
-//	Arguments["keepFromSource"] = "attachments,checklists,comments"
+//		Arguments["keepFromSource"] = "all"
+//	 Arguments["keepFromSource"] = "none"
+//		Arguments["keepFromSource"] = "attachments,checklists,comments"
 func (c *Card) CopyToList(listID string, extraArgs ...Arguments) (*Card, error) {
 	args := Arguments{
 		"idList":       listID,
@@ -587,4 +586,16 @@ func earliestCardID(cards []*Card) string {
 		}
 	}
 	return earliest
+}
+
+// SetCustomFieldValue set or update a custom field value
+func (c *Card) SetCustomFieldValue(customField *CustomFieldItem, extraArgs ...Arguments) error {
+	path := fmt.Sprintf("cards/%s/customField/%s/item", c.ID, customField.IDCustomField)
+	args := Arguments{}
+	args.flatten(extraArgs)
+	err := c.client.Post(path, args, &customField)
+	if err != nil {
+		err = errors.Wrapf(err, "Error set custom field on card %s", c.ID)
+	}
+	return err
 }
