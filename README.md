@@ -3,7 +3,7 @@ Go Trello API
 
 [![Trello Logo](https://raw.githubusercontent.com/adlio/trello/master/trello-logo.png)](https://www.trello.com)
 
-[![GoDoc](https://godoc.org/github.com/adlio/trello?status.svg)](http://godoc.org/github.com/adlio/trello)
+[![GoDoc](https://godoc.org/github.com/jonasandre/trello?status.svg)](http://godoc.org/github.com/jonasandre/trello)
 [![Build Status](https://travis-ci.org/adlio/trello.svg)](https://travis-ci.org/adlio/trello)
 [![Coverage Status](https://coveralls.io/repos/github/adlio/trello/badge.svg?branch=master)](https://coveralls.io/github/adlio/trello?branch=master)
 
@@ -23,7 +23,7 @@ The Go Trello API has been Tested compatible with Go 1.7 on up. Its only depende
 the `github.com/pkg/errors` package. It otherwise relies only on the Go standard library.
 
 ```
-go get github.com/adlio/trello
+go get github.com/jonasandre/trello
 ```
 
 ## Basic Usage
